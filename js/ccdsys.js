@@ -20,15 +20,13 @@ class CCDSys {
 	
   	setCCDAxis (vec, id, angleLo, angleHi) {
   	  let CCD_axis = {axis: vec.clone(), jointid: id};
-  	  let thetaLo = angleLo || -1e4 // default: no limits
- 	  let thetaHi = angleHi || 1e4 
- 	  CCD_axis.limits = new THREE.Vector2 (thetaLo, thetaHi)
- 	  
- 	  this.axes.push (CCD_axis)
+  	  let thetaLo = angleLo !== undefined ? angleLo : -1e4 // default: no limits
+ 	  	let thetaHi = angleHi !== undefined ? angleHi :  1e4 
+ 	    CCD_axis.limits = new THREE.Vector2 (thetaLo, thetaHi)
+ 	    this.axes.push (CCD_axis)
   	}
   
-	solve ( target, thetas ) { // (NY) in case base is changing ...
-		
+	solve ( target, thetas ) { 
 		// local variable for iterations
 		let end = new THREE.Vector3();
     	let base = new THREE.Vector3();
@@ -106,131 +104,3 @@ class CCDSys {
 
 
 }
-
-//////////////////////////////////////////////////////////////////////////
-/*
-var scene, renderer, camera;
-var link1, link2, theta1, theta2;
-
-var target = new THREE.Vector3();
-var xx = 0; sign = 1;
-
-var ccdSys;
-
-init();
-animate();
-
-////////////////////////////////////////////////////////
-// forward kinematics
-function fk (theta, joints) {  // all memory have been allocated
-  joints[0].set (0,0,0);
-  
-  var localzero = new THREE.Vector3(0, 0, 0);
-  var m = new THREE.Matrix4();
-  m.makeRotationY(theta[0]);
-  m.multiply(new THREE.Matrix4().makeTranslation(60, 0, 0));
-  localzero.applyMatrix4(m);
-  joints[1].copy(localzero);
-
-  localzero.set(0, 0, 0);
-  m.multiply(new THREE.Matrix4().makeRotationY(theta[1]));
-  m.multiply(new THREE.Matrix4().makeTranslation(90, 0, 0));
-  localzero.applyMatrix4(m);
-  joints[2].copy(localzero);
-}
-
-
-////////////////////////////////////////////////////////////////
-function init() {
-
-  renderer = new THREE.WebGLRenderer({
-    antialias: true
-  });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0x888888);
-
-	scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-  camera.position.y = 160;
-  camera.position.z = 400;
-  camera.lookAt(new THREE.Vector3(0, 0, 0));
-  document.body.appendChild(renderer.domElement);
-  let controls = new THREE.OrbitControls(camera, renderer.domElement);
-
-  var gridXZ = new THREE.GridHelper(200, 20, 'red', 'white');
-  scene.add(gridXZ);
-  window.addEventListener('resize', onWindowResize, false);
-
-  //////////////////////////////////////////////////
-	link1 = makeLink(60);
-  scene.add (link1);
-	link2 = makeLink(90);
-  link1.add (link2);
-  link2.position.set (60,0,0);
-
-	theta1 = 0;
-  theta2 = 0;
-  // base
-  var cyl_geom = new THREE.CylinderGeometry(10, 10, 6, 32);
-  var cyl_mat = new THREE.MeshBasicMaterial({
-    color: 0xff2211
-  });
-  var base = new THREE.Mesh(cyl_geom, cyl_mat);
-  scene.add(base);
-
-  //////////////////////////////////////////////////
-  // setting ccdSys
-  ccdSys = new CCDSys (fk)
-  ccdSys.setCCDAxis (new THREE.Vector3(0,1,0), 0)
-  ccdSys.setCCDAxis (new THREE.Vector3(0,1,0), 1, -3.1, -0.01)
-}
-
-function makeLink(length) {
-  var oneLink = new THREE.Object3D();
-  var mesh = new THREE.Mesh(new THREE.BoxGeometry(length, 10,10), new THREE.MeshNormalMaterial());
-  oneLink.add(mesh);
-  mesh.position.set(length/2, 0, 0);
-  return oneLink;
-}
-
-function onWindowResize() {
-  let width = window.innerWidth;
-  let height = window.innerHeight;
-  camera.aspect = width / height;
-  camera.updateProjectionMatrix();
-  renderer.setSize(width, height);
-}
-
-function animate() {
-  
-  requestAnimationFrame(animate);
-  update()
-  render();
-}
-
-function update() {
-    
-  // ccdSys works on the theta array
-  var thetas = [theta1, theta2]; 
-
-  if (Math.abs(xx) > 100) 
-  	sign *= -1;
-  xx += sign * 5;
-  target.set (xx,0,-100);
-
-  ccdSys.solve (target, thetas);
-  
-  // copy the theta array back to theta1 & theta2  
-  theta1 = thetas[0], theta2 = thetas[1];
-
-}
-
-
-function render() {
-
-	link1.rotation.y = theta1;
-  link2.rotation.y = theta2;
-
-  renderer.render(scene, camera);
-}
-*/
