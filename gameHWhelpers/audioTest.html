@@ -19,7 +19,8 @@
 
   <div id = "info"> 
 	 <br>Sound, BGM, and Collision<br><br>
-	 with BGM (<a href="javascript:toggle();">dimmer</a>)<br>
+	 with BGM 
+	 <button id='dimmer'>dimmer</button><br>
 	<button id="play" style="width:20%">Play</button> 
 	<br> <a href="https://developers.google.com/web/updates/2017/09/autoplay-policy-changes">Chrome autoplay policy change</a>
 
@@ -32,12 +33,11 @@
 <audio id="soundtrack" autoplay loop style="display:none">
 <source src="https://jyunming-chen.github.io/game3js/gameHWhelpers/sounds/KennyG.mp3"  type='audio/mp3'>
 </audio>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/107/three.min.js"></script>
-<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
-<script>
+<script type='module'>
+import * as THREE from "https://threejs.org/build/three.module.js";
+import { OrbitControls } from "https://threejs.org/examples/jsm/controls/OrbitControls.js";
 
 $('#play').click ( function() {
 	isPaused = !isPaused;
@@ -49,6 +49,8 @@ $('#play').click ( function() {
 		soundTrack.play()
 	}
 });
+
+$('#dimmer').click (function() { toggle();});
 
 var scene, renderer, camera;
 var clock = new THREE.Clock();
@@ -94,7 +96,7 @@ function init() {
 	
 	var cubeGeometry = new THREE.BoxGeometry (100,6,100);
 	var cubeMaterial = new THREE.MeshLambertMaterial ({color: 0x888888});
-	cube = new THREE.Mesh (cubeGeometry, cubeMaterial);
+	let cube = new THREE.Mesh (cubeGeometry, cubeMaterial);
 	cube.position.set (0,-2.5,0);
 	scene.add (cube);
 	
@@ -120,7 +122,7 @@ function init() {
 	camera.position.z = 200;
 	camera.lookAt (new THREE.Vector3(0,0,0));
 
-	controls = new THREE.OrbitControls (camera, renderer.domElement);
+	let controls = new OrbitControls (camera, renderer.domElement);
 	
 	let gridXZ = new THREE.GridHelper(200, 20, 'red', 'white');
 	scene.add(gridXZ);
