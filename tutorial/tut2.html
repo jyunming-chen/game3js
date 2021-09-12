@@ -10,8 +10,9 @@ body {
 
 <body>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+<script src="https://threejs.org/build/three.min.js"></script>
 <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+
 <script>
 
 var renderer, scene, camera;
@@ -33,7 +34,7 @@ function init () {
 	scene = new THREE.Scene();
 	var grid = new THREE.GridHelper(20,20, 0xaaaa00, 0x333333);
 	scene.add (grid);
-	var axes = new THREE.AxisHelper (5);
+	var axes = new THREE.AxesHelper (5);
 	scene.add (axes);
 	
 	camera = new THREE.PerspectiveCamera (35, width/height, 1, 100);

@@ -10,12 +10,12 @@ body {
 
 <body>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+<script src="https://threejs.org/build/three.min.js"></script>
 <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
 <script>
 
 var renderer, scene, camera;
-var controls, cube;
+var cube;
 var angle = 0;  // initialization IMPORTANT!
 
 init();
@@ -34,7 +34,7 @@ function init () {
 	scene = new THREE.Scene();
 	var grid = new THREE.GridHelper(20,20, 0xaaaa00, 0x333333);
 	scene.add (grid);
-	var axes = new THREE.AxisHelper (5);
+	var axes = new THREE.AxesHelper (5);
 	scene.add (axes);
 	
 	camera = new THREE.PerspectiveCamera (35, width/height, 1, 100);
@@ -42,7 +42,7 @@ function init () {
 	camera.position.z = 40;
 	camera.lookAt (new THREE.Vector3(0,0,0));
 	
-	controls = new THREE.OrbitControls(camera, renderer.domElement);
+	let controls = new THREE.OrbitControls(camera, renderer.domElement);
 	
 	window.addEventListener('resize', onWindowResize, false);
 	///////////////////////////////////////////////////////////////
@@ -68,7 +68,6 @@ function animate() {
 	angle += 0.01;
 	cube.position.set (8*Math.cos(angle), 0.5, 8*Math.sin(angle));
 	cube.rotation.y = -angle;
-	controls.update();
 	requestAnimationFrame(animate);
 	render();
 	
