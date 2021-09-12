@@ -2,4 +2,4 @@
 
 ***
 
-See *[this directory] (https://jyunming-chen.github.io/game3js/)*
+Look up *[this link] (https://jyunming-chen.github.io/game3js/tutorial/tut3.html)* for first tutorial.
