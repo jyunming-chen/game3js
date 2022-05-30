@@ -3,6 +3,7 @@
 // p: the vector to be projected
 // n: the normal defining the projection plane (unit vector)
 // clarification: call by reference/pointer or call-by-value
+
 function proj2plane(p, n) {
 	return p.clone().projectOnPlane(n);
 }
@@ -92,13 +93,15 @@ class CCDSys {
 		}
 
 
-		if (iter < MAXITER)
-		  return 1;
-		else {
-		  console.log("do not converge");   // does not mean "fail"
+
+//		if (iter < MAXITER)
+//		  return 1;
+//		else {
+
+		console.log("do not converge");   // does not mean "fail"
 		                                    // sometimes just mean "target not reachable"
-		  return 0;
-		}
+		return 0;
+//	   }
 
 	} // end of solve
 
